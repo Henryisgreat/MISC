@@ -1,0 +1,255 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ambored
+{
+	class MainClass
+	{
+		public static void Main(string[] args)
+		{
+			dochose(); 
+			stringtest();
+
+		}
+		#region stringtest
+		static IDictionary<char, int> charDict = new Dictionary<char, int>();
+		public static void stringtest() {
+			Console.WriteLine("String Input: ");
+		
+			string str;
+			str = Convert.ToString(Console.ReadLine());
+			var chars = str.ToArray();
+			Console.WriteLine("--------------------------------");
+
+			Console.WriteLine(str);
+			Console.WriteLine("--------------------------------");
+			Console.WriteLine("str: {0}" , chars.Length);
+			Console.WriteLine("chars:");
+			for (int i = 0; i < chars.Length; i++)
+			{
+				Console.WriteLine(" {0}: {1}", i, chars[i]);
+
+			}
+			Array.Sort(chars);
+			Console.WriteLine("--------------------------------");
+			foreach (char b in chars ) {
+
+				Console.Write(b);
+			}
+			Console.WriteLine();
+
+			Console.WriteLine("--------------------------------");
+
+			Console.WriteLine("char count: ");
+			int charint = 0; 
+			foreach (var ch in chars) {
+				if (!charDict.TryGetValue(ch, out charint))
+				{
+					charDict.Add(new KeyValuePair<char, int>(ch, 1));
+				}
+				else {
+					charDict[ch]++; 
+				}
+			}
+			Console.WriteLine();
+			var difcar = str.Distinct();
+			foreach (var kvp in charDict) {
+				if (kvp.Key == ' ')
+				{ Console.WriteLine(kvp.Value + " spaces"); }
+				else {
+					Console.WriteLine(kvp.Key + " : " + kvp.Value);
+				}
+			}
+
+			Console.ReadKey();
+
+		}
+		#endregion
+		#region dochose
+		public static void dochose() { 
+		
+		int chose;
+			Console.ReadKey();
+			Console.WriteLine();
+			Console.WriteLine("1 = probMaker, 2 = probFind, 3 = dieProb, 4 = multiprobfind, 5 = fizzbuzzmeme, 7 = stringthing  ");
+
+			chose = Convert.ToInt32(Console.ReadLine());
+		Strat:
+			if (chose == 1)
+			{
+				probMaker();
+			}
+			else if (chose == 2)
+			{
+				probabilityFind();
+			}
+			else if (chose == 3)
+			{
+				dieProb();
+			}
+			else if (chose == 4)
+			{
+				multiprobFind();
+			}
+			else if (chose == 5)
+			{
+
+				Fizzbuzzmeme();
+			}
+			else if (chose == 7)
+			{
+
+				stringtest();
+			}
+			else { goto Strat; }
+
+		}
+
+		#endregion
+		#region fizzbuzzmeme
+		public static void Fizzbuzzmeme() {
+
+			for (int i = 0; i <= 100; i++) { if ((i % 5 == 0) && (i % 3 == 0)) { Console.WriteLine("Fizzbuzz"); } else if (i % 3 == 0) { Console.WriteLine("fizz"); } else if (i % 5 == 0) { Console.WriteLine("buzz"); } else { Console.WriteLine(i);} }
+			Console.ReadKey();
+			dochose(); 
+
+		}
+
+
+		#endregion
+		#region dieprob
+		public static void dieProb() {
+			int chose;
+			double times;
+			double outcome;
+			double outnum;
+
+			Console.WriteLine("1 = die, 2 = spinner"); 
+			chose = Convert.ToInt32(Console.ReadLine());
+			if (chose == 1)
+			{
+				Console.WriteLine("how many sides does the die have?");
+				times = Convert.ToDouble(Console.ReadLine());
+				Console.WriteLine(times);
+				Console.WriteLine("How many times is the die thrown");
+				outcome = Convert.ToDouble(Console.ReadLine());
+				Console.WriteLine(outcome);
+				Console.WriteLine("number of outcomes you are looking for");
+				outnum = Convert.ToDouble(Console.ReadLine());
+				Console.WriteLine("Probability: " + (outnum / (outcome * times)) * 100 + "%");
+
+			}
+			else if (chose == 2)
+			{
+
+				Console.WriteLine("How many sides is the spinner?");
+				times = Convert.ToDouble(Console.ReadLine());
+				Console.WriteLine("How many times are you spinning it?");
+				outcome = Convert.ToDouble(Console.ReadLine());
+				Console.WriteLine("How many outcomes are you looking for?");
+				outnum = Convert.ToDouble(Console.ReadLine());
+				Console.WriteLine("Probability: " + (outnum / (outcome * times)) * 100 + "%");
+			}
+
+			dochose(); 
+		}
+		#endregion
+		#region probabilityfind
+		public static void probabilityFind() {
+			double total;
+			double otherone;
+			Console.WriteLine("input the total, and then the portion of the total");
+			total = Convert.ToDouble(Console.ReadLine());
+			Console.WriteLine(total);
+			otherone = Convert.ToDouble(Console.ReadLine());
+			Console.WriteLine(otherone);
+			Console.WriteLine("it is " + ((otherone / total) * 100) + "%");
+			dochose(); 
+
+		}
+		#endregion
+		#region probMaker
+		public static void probMaker() { 
+		
+		int x = 0;
+			Random rnd = new Random();
+			Console.ReadKey();
+			double senario3 = 0;
+			double scenario1 = 0;
+			double scenario2 = 0;
+			int a = 1;
+			int b = 2;
+			int c = 3;
+
+			for (x = 0; x < 81; x++)
+			{
+				int probf = rnd.Next(1, 101);
+				if (probf <= 25)
+				{
+					Console.WriteLine("trial(" + x + ")" + " = " + a);
+					scenario1++;
+				}
+				else if ((probf >= 26) && (probf <= 50))
+				{
+					Console.WriteLine("trial(" + x + ")" + " = " + b);
+					scenario2++;
+				}
+				else if ((probf >= 51) && (probf <= 100))
+				{
+					Console.WriteLine("trial(" + x + ")" + " = " + c);
+					senario3++;
+				}
+
+			}
+			double sc1percent = (scenario1 / 80);
+			Console.WriteLine("Scenario 1 = " + scenario1 + " Scenario 2 = " + scenario2 + " Scenario 3 = " + senario3);
+			Console.WriteLine("Total trials = 100");
+			Console.WriteLine("outcome percentage = " + (sc1percent) + " = " + (sc1percent * 100) + "%");
+			Console.ReadKey();
+			dochose(); 
+		}
+		#endregion
+		#region multiprobfind
+		public static void multiprobFind() {
+
+
+			int z;
+			List<int> a = new List<int>();
+			while (Int32.TryParse(Console.ReadLine(), out z)){
+			a.Add(z);
+			}
+			double[,] ServicePoint = new double[8, 9];
+
+			dochose(); 
+
+		}
+		#endregion
+		#region probgrid
+		public static void probGrid() {
+			
+			int width;
+			int height;
+			Console.WriteLine("Input the width");
+			width = Convert.ToInt32(Console.ReadLine());
+			Console.WriteLine("height");
+			height = Convert.ToInt32(Console.ReadLine()); 
+
+			int[,] grid = new int[width, height];
+			int x;
+			int y;
+			for (y = 0; y < height; y++)
+			{
+				for (x = 0; x < width; x++)
+				{
+					grid[x, y] = x * y;
+					Console.Write(grid[x, y]);
+				}
+			}
+		}
+		#endregion
+		
+	}
+}
